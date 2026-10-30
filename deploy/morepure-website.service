@@ -1,0 +1,24 @@
+[Unit]
+Description=MorePure Next.js website
+After=network.target
+[Service]
+Type=simple
+User=morepure
+Group=morepure
+WorkingDirectory=/opt/morepure/current
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=INQUIRY_DATA_PATH=/var/lib/morepure/inquiries.json
+Environment=INQUIRY_ATTACHMENT_DIR=/var/lib/morepure/attachments
+EnvironmentFile=-/etc/morepure/admin.env
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 4180
+Restart=on-failure
+RestartSec=5
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/morepure /var/cache/morepure
+[Install]
+WantedBy=multi-user.target

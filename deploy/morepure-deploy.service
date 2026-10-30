@@ -1,0 +1,11 @@
+[Unit]
+Description=Check GitHub main and deploy MorePure
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/morepure-deploy
+TimeoutStartSec=20min
+Nice=10
+MemoryMax=1400M
+MemorySwapMax=2G

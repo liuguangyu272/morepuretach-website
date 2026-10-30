@@ -1,0 +1,9 @@
+[Unit]
+Description=Check MorePure GitHub updates every two minutes
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+AccuracySec=10s
+Unit=morepure-deploy.service
+[Install]
+WantedBy=timers.target
