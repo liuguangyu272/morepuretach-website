@@ -27,7 +27,31 @@ fi
 ln -s /var/cache/morepure "$release/.next/cache"
 printf '%s\n' "$sha" > "$release/.release-sha"
 chown -R root:root "$release"
+chmod -R a+rX "$release"
 chmod -R a-w "$release"
+# Start on a private test port before disturbing the running website.
+systemd-run --quiet --collect --unit=morepure-smoke \
+  --property=User=morepure --property="WorkingDirectory=$release" \
+  --property=RuntimeMaxSec=45 --property=NoNewPrivileges=yes \
+  --property=ProtectSystem=strict \
+  --property="ReadWritePaths=/var/lib/morepure /var/cache/morepure" \
+  --setenv=NODE_ENV=production --setenv=NEXT_TELEMETRY_DISABLED=1 \
+  /usr/bin/node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 4181
+trap 'systemctl stop morepure-smoke.service >/dev/null 2>&1 || true' EXIT
+smoke_ok=false
+for attempt in {1..30}; do
+  if curl -fsS --max-time 3 http://127.0.0.1:4181/ -o /dev/null 2>/dev/null; then
+    smoke_ok=true
+    break
+  fi
+  sleep 1
+done
+systemctl stop morepure-smoke.service
+trap - EXIT
+if [[ "$smoke_ok" != true ]]; then
+  echo 'Preflight failed; the running website was left untouched.' >&2
+  exit 1
+fi
 install -d -m 700 /var/backups/morepure
 tar -C /var/lib/morepure -czf "/var/backups/morepure/predeploy-$(date -u +%Y%m%dT%H%M%SZ).tgz" .
 switch_release() {
@@ -44,7 +68,7 @@ trap rollback ERR
 systemctl restart morepure-website
 healthy=false
 for attempt in {1..30}; do
-  if curl -fsS --max-time 3 http://127.0.0.1:4180/ -o /dev/null; then
+  if curl -fsS --max-time 3 http://127.0.0.1:4180/ -o /dev/null 2>/dev/null; then
     healthy=true
     break
   fi
