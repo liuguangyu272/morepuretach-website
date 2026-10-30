@@ -11,11 +11,10 @@ import {
   FlaskConical,
   MessageSquareText,
 } from "lucide-react";
-import { categoryMap, productMap, products } from "@/data/products";
+import { categoryMap, getRelatedProducts } from "@/data/products";
+import { getManagedProduct, getManagedProducts } from "@/data/product-store";
 
-export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -23,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = productMap[slug];
+  const product = await getManagedProduct(slug);
   if (!product) return {};
   return {
     title: product.name,
@@ -37,12 +36,11 @@ export default async function ProductDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = productMap[slug];
+  const products = await getManagedProducts();
+  const product = products.find((item) => item.slug === slug);
   if (!product) notFound();
   const category = categoryMap[product.category];
-  const related = products
-    .filter((item) => item.category === product.category && item.slug !== product.slug)
-    .slice(0, 3);
+  const related = getRelatedProducts(product, products);
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -206,9 +204,9 @@ export default async function ProductDetailPage({
           {product.documents.length ? (
             <div className="document-grid">
               {product.documents.map((document) => (
-                <a href={document.href} target="_blank" rel="noreferrer" key={document.href}>
+                <a href="/inquiry" key={document.href}>
                   <span className="doc-icon"><FileText size={22} /></span>
-                  <div><small>{document.type} · PDF</small><strong>{document.title}</strong></div>
+                  <div><small>{document.type} · {document.format ?? "PDF"}</small><strong>{document.title}</strong></div>
                   <Download size={19} />
                 </a>
               ))}
@@ -231,7 +229,7 @@ export default async function ProductDetailPage({
               {related.map((item) => (
                 <Link href={`/products/${item.slug}`} key={item.slug}>
                   <div className="related-image"><Image src={item.image} alt="" fill sizes="33vw" /></div>
-                  <small>{category.name}</small><h3>{item.name}</h3><span>{item.code} <ArrowRight size={15} /></span>
+                  <small>{categoryMap[item.category].name}</small><h3>{item.name}</h3><span>{item.code} <ArrowRight size={15} /></span>
                 </Link>
               ))}
             </div>

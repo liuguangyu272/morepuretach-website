@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+*.log
+*.tsbuildinfo
+.DS_Store
+.env*
+!.env.example
+data/inquiries.local.json
+data/inquiry-attachments/
+
+# Private source documents: never include in source control or deployment.
+public/downloads/
+.quotaguard/

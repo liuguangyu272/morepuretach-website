@@ -3,11 +3,14 @@ import Link from "next/link";
 import { ChevronRight, Search } from "lucide-react";
 import ProductExplorer from "@/components/ProductExplorer";
 import { categories, type CategorySlug } from "@/data/products";
+import { getManagedProducts } from "@/data/product-store";
 
 export const metadata: Metadata = {
   title: "产品中心",
   description: "浏览猫谱科技六大产品线，按产品名称、货号、粒径、表面基团与应用查找产品。",
 };
+
+export const dynamic = "force-dynamic";
 
 export default async function ProductsPage({
   searchParams,
@@ -20,6 +23,7 @@ export default async function ProductsPage({
   const initialCategory = categories.some((category) => category.slug === categoryParam)
     ? (categoryParam as CategorySlug)
     : "all";
+  const products = await getManagedProducts();
 
   return (
     <main>
@@ -45,7 +49,7 @@ export default async function ProductsPage({
 
       <section className="section catalog-section">
         <div className="container">
-          <ProductExplorer initialCategory={initialCategory} initialQuery={q ?? ""} />
+          <ProductExplorer catalogProducts={products} initialCategory={initialCategory} initialQuery={q ?? ""} />
         </div>
       </section>
     </main>

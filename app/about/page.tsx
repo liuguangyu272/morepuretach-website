@@ -15,7 +15,7 @@ export default function AboutPage() {
       <section className="page-hero about-hero">
         <div className="container">
           <div className="breadcrumbs"><Link href="/">首页</Link><ChevronRight size={14} /><span>关于猫谱</span></div>
-          <div className="page-hero-grid"><div><span className="eyebrow light">ABOUT MORE PURE TECH</span><h1>以微球技术为原点。</h1><p>连接材料开发、表面化学、色谱装填与分析方法，为生物医药分离纯化提供更专业的整体解决方案。</p></div><div className="about-hero-mark"><strong>More</strong><strong>Pure</strong><span>更专业 · 更纯净</span></div></div>
+          <div className="page-hero-grid"><div><span className="eyebrow light">ABOUT MORE PURE TECH</span><h1>以微球技术为原点</h1><p>连接材料开发、表面化学、色谱装填与分析方法，为生物医药分离纯化提供更专业的整体解决方案。</p></div><div className="about-hero-mark"><strong>More</strong><strong>Pure</strong><span>更专业 · 更纯净</span></div></div>
         </div>
       </section>
 
@@ -38,10 +38,10 @@ export default function AboutPage() {
       </section>
 
       <section className="vision-section">
-        <div className="container vision-grid"><div><span className="eyebrow light">OUR VISION</span><h2>为客户提供更专业的生物医药分离纯化整体解决方案。</h2></div><div className="vision-values"><article><strong>夯实基础</strong><p>持续完善核心产品线的规格化与标准化。</p></article><article><strong>打造标杆</strong><p>聚焦具有辨识度的产品与应用增长赛道。</p></article><article><strong>引领自主</strong><p>以 More Pure 的品牌承诺，与客户并肩成长。</p></article></div></div>
+        <div className="container vision-grid"><div><span className="eyebrow light">OUR VISION</span><h2>为客户提供更专业的生物医药分离纯化整体解决方案</h2></div><div className="vision-values"><article><strong>夯实基础</strong><p>持续完善核心产品线的规格化与标准化。</p></article><article><strong>打造标杆</strong><p>聚焦具有辨识度的产品与应用增长赛道。</p></article><article><strong>引领自主</strong><p>以 More Pure 的品牌承诺，与客户并肩成长。</p></article></div></div>
       </section>
 
-      <section className="section location-section"><div className="container location-card"><span className="location-icon"><MapPin size={28} /></span><div><span className="eyebrow">NANJING · JIANGBEI NEW AREA</span><h2>扎根南京，服务多元研发与检测场景。</h2><p>{contact.address}</p></div><Link href="/contact" className="button button-primary">联系我们 <ArrowRight size={17} /></Link></div></section>
+      <section className="section location-section"><div className="container location-card"><span className="location-icon"><MapPin size={28} /></span><div><span className="eyebrow">NANJING · JIANGBEI NEW AREA</span><h2>扎根南京服务多元研发与检测场景</h2><p>{contact.address}</p></div><Link href="/contact" className="button button-primary">联系我们 <ArrowRight size={17} /></Link></div></section>
     </main>
   );
 }

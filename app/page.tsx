@@ -11,12 +11,15 @@ import {
   Sparkles,
 } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
-import { categories, categoryMap, products } from "@/data/products";
+import { categories, categoryMap } from "@/data/products";
 import { capabilities, resources, solutions } from "@/data/site";
+import { getManagedProducts } from "@/data/product-store";
 
-const featuredProducts = products.filter((product) => product.featured).slice(0, 4);
+export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const managedProducts = await getManagedProducts();
+  const featuredProducts = managedProducts.filter((product) => product.featured).slice(0, 4);
   return (
     <main>
       <section className="home-hero">
@@ -27,10 +30,10 @@ export default function HomePage() {
             <span className="hero-kicker">
               <span /> FUNCTIONAL MICROSPHERE PLATFORM
             </span>
-            <h1>
-              让每一次分离
-              <br />
-              <em>更纯净。</em>
+            <h1 className="hero-solution-title">
+              <span>为您提供更专业的</span>
+              <em>生物医药分离纯化</em>
+              <span>整体解决方案</span>
             </h1>
             <p>
               从微球基质与表面化学，到色谱柱装填和样品前处理，
@@ -146,7 +149,7 @@ export default function HomePage() {
         <div className="container capability-grid">
           <div className="capability-intro">
             <span className="eyebrow light">ONE INTEGRATED PATH</span>
-            <h2>从材料，到方法。</h2>
+            <h2>从材料到方法</h2>
             <p>
               猫谱科技围绕功能化微球建立连续技术路径，让产品参数、表面化学、装填规格和应用方法彼此衔接。
             </p>
@@ -177,7 +180,7 @@ export default function HomePage() {
         <div className="container">
           <SectionHeading
             eyebrow="SOLUTIONS BY APPLICATION"
-            title="先从问题出发"
+            title="从应用出发找到您所需要的材料"
             description="如果您只知道实验目标而不确定材料名称，可以从应用、样品基质和方法路径开始。"
             href="/solutions"
             linkLabel="查看全部解决方案"
@@ -245,15 +248,15 @@ export default function HomePage() {
         <div className="container resources-strip-grid">
           <div className="resource-feature">
             <span className="eyebrow light">TECHNICAL LIBRARY</span>
-            <h2>资料不应藏在产品页深处。</h2>
-            <p>集中查找已核入演示站的产品说明书与公开彩页，并可快速返回关联产品。</p>
+            <h2>资料不应藏在产品页深处</h2>
+            <p>查看产品资料目录，联系销售申请适用的说明书与技术资料。</p>
             <Link href="/resources" className="button button-light">
               进入技术资料库 <ArrowRight size={17} />
             </Link>
           </div>
           <div className="resource-list-home">
             {resources.slice(0, 3).map((resource) => (
-              <a href={resource.href} target="_blank" rel="noreferrer" key={resource.href}>
+              <a href="/inquiry" key={resource.href}>
                 <span className="resource-type-icon"><FileText size={20} /></span>
                 <div>
                   <small>{resource.type} · {resource.category}</small>
@@ -277,7 +280,7 @@ export default function HomePage() {
           </div>
           <div className="about-home-copy">
             <span className="eyebrow">ABOUT MORE PURE</span>
-            <h2>把实验室需求，连接到可重复的产品规格。</h2>
+            <h2>按您的需求定制更多产品</h2>
             <p>
               南京猫谱科技有限公司以自主研发的功能化微球材料为技术基础，产品覆盖色谱柱、硅胶微球、磁性微球、聚合物微球、荧光微球及萃取材料与试剂。
             </p>

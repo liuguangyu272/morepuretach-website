@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.morepuretech.com"),
+  metadataBase: new URL("https://morepuretech.com"),
   title: {
     default: "猫谱科技｜功能化微球与分离纯化解决方案",
     template: "%s｜猫谱科技",

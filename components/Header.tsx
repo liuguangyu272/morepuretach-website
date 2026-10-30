@@ -18,13 +18,14 @@ const navItems = [
 export function Brand() {
   return (
     <span className="brand-lockup">
-      <span className="brand-crop" aria-hidden="true">
-        <img src="/assets/logo-square.jpg" alt="" />
-      </span>
-      <span className="brand-words">
-        <strong>猫谱科技</strong>
-        <small>More Pure TECH</small>
-      </span>
+      <svg
+        className="brand-logo"
+        viewBox="145 215 735 735"
+        role="img"
+        aria-label="猫谱科技 Logo"
+      >
+        <image href="/assets/logo-square.jpg" width="1024" height="1024" />
+      </svg>
     </span>
   );
 }
@@ -116,7 +117,7 @@ export default function Header() {
 
             <div className="header-actions">
               <Link href="/resources" className="text-action">
-                资料下载
+                资料申请
               </Link>
               <Link href="/inquiry" className="button button-primary button-compact">
                 获取报价
