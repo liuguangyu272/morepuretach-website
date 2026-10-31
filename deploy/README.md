@@ -1,6 +1,6 @@
 # 华为云运行配置
 
-- 网站：`http://113.44.83.197`；域名生效并签发证书后使用 `https://morepuretech.com`。
+- 网站：`https://morepuretech.com` 和 `https://www.morepuretech.com`；HTTP 自动跳转 HTTPS。
 - 后台：`https://admin.morepuretech.com/admin`。HTTPS 和管理员凭据未配置时拒绝访问。
 - 运行服务：`morepure-website.service`，仅在本机 `127.0.0.1:4180` 监听。
 - 更新：`morepure-deploy.timer` 每两分钟检查 GitHub `main`，只在提交变化时构建。
@@ -12,9 +12,9 @@
 - 自动更新日志：`journalctl -u morepure-deploy.service`。
 - 手动检查更新：`systemctl start morepure-deploy.service`。
 - HTTPS 就绪后，由所有者在服务器终端运行 `morepure-set-admin`，自行输入独立管理员密码。
-- 证书申请：先使根域名、www、admin 的 A 记录指向服务器，再由所有者运行 `morepure-enable-https`，输入邮箱并审阅证书服务条款。
+- 已安装覆盖根域名、www、admin 的 Let's Encrypt 证书。更换证书服务时需重新审阅其条款。
 - 证书续期：`certbot.timer`；续期成功后重载 Nginx。
 
 `server-deploy.sh` 安装为 root 所有的固定运维程序。普通 GitHub 更新不会替换这个特权程序；修改它需另行审阅并重新安装。
 
-DNS 当前由 DNSPod 的 `drew.dnspod.net` 和 `gosling.dnspod.net` 管理。华为云 DNS 区域中的记录只有在域名委派给华为云后才会生效。
+DNS 已委派至华为云：`ns1.huaweicloud-dns.com`、`ns1.huaweicloud-dns.cn`、`ns1.huaweicloud-dns.net`、`ns1.huaweicloud-dns.org`。在华为云维护根域名、`www`、`admin` 的 A 记录，当前均指向 `113.44.83.197`；域名注册和续费仍在腾讯云。
