@@ -14,13 +14,18 @@ if not Path("/etc/letsencrypt/live/morepuretech.com/fullchain.pem").exists():
 username = input("Administrator username [morepure_admin]: ").strip() or "morepure_admin"
 if not re.fullmatch(r"[A-Za-z0-9_.-]{3,64}", username):
     raise SystemExit("Use 3-64 letters, digits, underscores, dots or hyphens.")
-password = getpass.getpass("New administrator password (at least 16 characters): ")
-if len(password) < 16 or len(password) > 200:
-    raise SystemExit("Use a password with 16-200 characters.")
-if any(ord(c) < 32 or ord(c) > 126 for c in password):
-    raise SystemExit("Use printable ASCII characters.")
-if password != getpass.getpass("Confirm administrator password: "):
-    raise SystemExit("Passwords do not match.")
+while True:
+    password = getpass.getpass("New administrator password (at least 16 characters): ")
+    if len(password) < 16 or len(password) > 200:
+        print("Use 16-200 characters. Please try again; input is hidden.")
+        continue
+    if any(ord(c) < 32 or ord(c) > 126 for c in password):
+        print("Use printable ASCII characters. Please try again.")
+        continue
+    if password != getpass.getpass("Confirm administrator password: "):
+        print("Passwords do not match. Please try again.")
+        continue
+    break
 def quote(value):
     return '"' + value.replace('\\', '\\\\').replace('"', '\\"') + '"'
 
